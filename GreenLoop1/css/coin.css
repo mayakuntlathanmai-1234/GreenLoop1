@@ -1,0 +1,117 @@
+.coin-counter {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: #fff;
+  color: #198754;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  z-index: 1000;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.no-underline {
+  text-decoration: none !important;
+}
+
+.custom-dialog-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-dialog-box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  padding: 32px 24px 24px 24px;
+  min-width: 300px;
+  text-align: center;
+  animation: popin 0.2s;
+}
+
+.custom-dialog-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.custom-dialog-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #198754;
+}
+
+.custom-dialog-message {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.custom-dialog-btn {
+  background: #198754;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 28px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.custom-dialog-btn:hover {
+  background: #146c43;
+}
+
+@keyframes popin {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.coin-dropdown-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  padding: 10px 0;
+  z-index: 3000;
+  font-size: 1rem;
+  color: #198754;
+  animation: popin 0.18s;
+}
+
+.coin-dropdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 18px;
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: #198754;
+  transition: background 0.15s;
+}
+
+.coin-dropdown-row.coin-current {
+  background: #e9fbe7;
+  font-weight: bold;
+  border-left: 4px solid #198754;
+}
+
+.coin-dropdown-row:not(.coin-current):hover {
+  background: #f6f6f6;
+}

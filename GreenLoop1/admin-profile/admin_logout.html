@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Signed out — GreenLoop Admin</title>
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root{--accent:#16a34a;--muted:#6b7280}
+    *{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Inter,Arial;background:linear-gradient(180deg,#f7faf9,#eef7ee);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#0f172a}
+    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 18px 40px rgba(12,18,33,0.07);width:420px;text-align:center;border:1px solid #eef6ee}
+    .check{font-size:42px;color:var(--accent);margin-bottom:8px}
+    .title{font-size:18px;margin-bottom:6px}
+    .muted{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .actions{display:flex;gap:10px;justify-content:center}
+    .btn{padding:10px 14px;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .primary{background:var(--accent);color:#fff}
+    .ghost{background:#fff;border:1px solid #e6eef0;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="check">✔</div>
+    <div class="title">You have been signed out</div>
+    <div class="muted">Your admin session has ended.</div>
+    <div class="actions">
+      <button id="toUser" class="ghost">User login</button>
+      <button id="toAdmin" class="primary">Admin sign in</button>
+    </div>
+  </div>
+
+  <script src="admin_auth_helpers.js"></script>
+  <script>
+    (function(){
+      // clear auth but do not redirect immediately — show confirmation page
+      if (window.adminAuth) adminAuth.logout(true);
+      else try{ localStorage.removeItem('greenloop_admin_authenticated'); sessionStorage.removeItem('admin_pending'); }catch(e){}
+
+      document.getElementById('toUser').addEventListener('click', function(){ window.location.href = 'loginpage.html'; });
+      document.getElementById('toAdmin').addEventListener('click', function(){ window.location.href = 'admin_login.html'; });
+
+      // optional: auto-redirect after a few seconds
+      setTimeout(()=>{ window.location.href = 'loginpage.html'; }, 4500);
+    })();
+  </script>
+</body>
+</html>

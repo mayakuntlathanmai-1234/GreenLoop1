@@ -1,0 +1,7 @@
+/* Minimal course page styles — replace with your full course.css content */
+.course-hero{padding:36px 0;background:linear-gradient(180deg,#f7fff4,#f0fff8)}
+.course-title{color:#158038;font-size:28px;margin:0 0 8px}
+.course-desc{color:#6b7280;margin:0 0 12px}
+.course-list{list-style:none;padding:0;margin:12px 0}
+.course-list li{margin-bottom:12px;padding:12px;border-radius:8px;background:#fff;border:1px solid #eef6ee}
+.course-cta{margin-top:18px}

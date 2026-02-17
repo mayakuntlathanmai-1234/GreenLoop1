@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Course - GreenLoop</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="icon.png">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="GreenLoop Logo">
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" id="courses-link">Courses ▾</a>
+          <ul class="dropdown-menu" id="dropdown-menu">
+            <li><a href="basic-course.html" class="active">Basic</a></li>
+            <li><a href="advance-course.html">Advanced</a></li>
+            <li><a href="workshop.html">Workshop</a></li>
+          </ul>
+        </li>
+        <li><a href="event.html">Events</a></li>
+        <li><a href="waste-exchange.html">Waste Exchange</a></li>
+        <li><a href="report.html">Report</a></li>
+      </ul>
+    </nav>
+    <div class="login-icon">
+      <a href="#"><i class="fa-solid fa-user"></i></a>
+    </div>
+  </header>
+
+  <!-- Course Hero -->
+  <section class="course-hero">
+    <div class="container course-hero-content">
+      <div class="course-text">
+        <h1>Basic Course for Waste Management</h1>
+        <p>Start your journey in sustainable waste management today! Learn the fundamentals and help make the planet cleaner and greener.</p>
+        <a href="basic-course-implimentation.html" class="btn primary-btn">Start for Free</a>
+      </div>
+      <div class="course-image">
+        <img src="basic-course.jpg" alt="Basic Course Image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Course Details -->
+  <section class="section alt-bg">
+    <div class="container course-details">
+      <div class="course-left">
+        <h2>Course Offers Knowledge On:</h2>
+        <ul>
+          <li>Introduction to Waste Management</li>
+          <li>Waste Classification</li>
+          <li>Collection, Segregation & Transportation</li>
+          <li>Quiz</li>
+        </ul>
+      </div>
+      <div class="course-right">
+        <h2>Offers:</h2>
+        <p>Certificate on Basics of Waste Management</p>
+
+        <!-- new: generate certificate CTA -->
+        <div style="margin-top:12px">
+          <button id="getCertBtn" class="btn primary-btn" type="button">Get Certificate</button>
+          <a href="certificates.html" style="margin-left:10px" class="btn secondary-btn">My Certificates</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Learn More -->
+  <section class="section">
+    <div class="container learn-more">
+      <p>Already done? Click here to learn more</p>
+      <a href="advance-course.html" class="btn secondary-btn">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Footer (same as before) -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <p><strong>Contact Us</strong></p>
+        <p>Email: <a href="mailto:greenloop@gmail.com">greenloop@gmail.com</a> | 
+           Twitter: <a href="#">@GreenLoop2025</a></p>
+      </div>
+      <div class="footer-column">
+        <p><strong>Stay Updated</strong></p>
+        <form class="newsletter">
+          <input type="email" id="email" placeholder="Your Email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <p class="footer-bottom">&copy; 2025 GreenLoop. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+  <script src="./js/dropdow_for_logo.js"></script>
+  <script src="./js/auth.js"></script>
+
+  <!-- certificate generator -->
+  <script src="js/certificates.js"></script>
+
+</body>
+</html>

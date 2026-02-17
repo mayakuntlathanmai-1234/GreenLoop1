@@ -1,0 +1,43 @@
+:root{
+  --bg:#f6f8fb; --card:#fff; --muted:#6b7280; --accent:#16a34a;
+  --accent-600:#158038; --surface-shadow: rgba(12,18,33,0.06);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#0f172a;-webkit-font-smoothing:antialiased}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:#fff;box-shadow:0 6px 18px var(--surface-shadow);position:sticky;top:0;z-index:10}
+.brand-link{display:flex;align-items:center;gap:10px;text-decoration:none;color:#16a34a}
+.brand-logo{width:40px;height:40px;object-fit:contain;border-radius:8px}
+.topnav{display:flex;gap:8px}
+.topnav a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:600}
+.topnav a.active{background:#f1fdf6;color:var(--accent-600);border:1px solid #e8f7ec}
+.container{max-width:980px;margin:28px auto;padding:0 18px;display:grid;grid-template-columns:1fr 420px;gap:20px}
+.card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 12px 30px var(--surface-shadow)}
+.form-card{grid-column:1 / span 1}
+.list-card{grid-column:2 / span 1}
+.card-header{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.muted{color:var(--muted)}
+label{display:block;margin-bottom:10px;font-size:13px}
+input,textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e6e9ef;background:#fff;font-size:14px}
+.row{display:flex;gap:12px}
+.row label{flex:1}
+.actions{display:flex;gap:10px;margin-top:8px}
+button{padding:10px 12px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+.primary{background:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(22,163,74,0.12)}
+.ghost{background:#fff;border:1px solid #e6e9ef;color:var(--muted)}
+.outline{background:transparent;border:1px dashed #e3e7ee;color:var(--muted)}
+.hidden{display:none}
+.events-list{display:flex;flex-direction:column;gap:10px}
+.event{display:flex;justify-content:space-between;gap:12px;padding:12px;border-radius:10px;border:1px solid #f1f4f8;background:linear-gradient(180deg,#ffffff,#fbfcfe);align-items:flex-start}
+.event .left{flex:1}
+.event .meta{font-size:12px;color:var(--muted);margin-top:6px}
+.event .actions{gap:8px}
+.small-note{font-size:13px;color:var(--muted)}
+.footer{max-width:980px;margin:18px auto;padding:0 18px;text-align:center;color:var(--muted);font-size:13px}
+
+/* Responsive */
+@media (max-width:920px){
+  .container{grid-template-columns:1fr; padding:0 14px}
+  .list-card{order:2}
+  .form-card{order:1}
+}

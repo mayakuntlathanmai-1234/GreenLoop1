@@ -1,0 +1,38 @@
+.quiz-section {
+  padding: 40px 0 50px 0;
+}
+.quiz-form {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 28px 24px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.quiz-question {
+  margin-bottom: 22px;
+}
+.quiz-question p {
+  margin-bottom: 8px;
+  color: #198754;
+}
+.quiz-result {
+  background: #e9fbe7;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 28px 24px;
+  max-width: 480px;
+  margin: 32px auto 0 auto;
+  text-align: center;
+}
+#certificateSection h3 {
+  color: #198754;
+  margin-top: 10px;
+}
+#failSection h3 {
+  color: #b94a48;
+  margin-top: 10px;
+}
+.btn.primary-btn, .btn.secondary-btn {
+  margin-top: 16px;
+}

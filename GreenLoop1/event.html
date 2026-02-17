@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenLoop - Events</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="event.css">
+  <link rel="icon" type="image/x-icon" href="icon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="icon.png">
+    <style>
+    /* account dropdown */
+    .login-icon { position:relative; }
+    .profile-toggle { display:inline-flex; align-items:center; gap:6px; padding:8px; border-radius:8px; color:inherit; text-decoration:none; }
+    .account-menu { position:absolute; right:0; top:42px; width:220px; background:#fff; border:1px solid #eef6ee; border-radius:10px; box-shadow:0 12px 30px rgba(12,18,33,0.08); padding:10px; z-index:1200; font-family:inherit; }
+    .account-menu.hidden { display:none; }
+    .account-menu .account-top { display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid #f3f6f4; margin-bottom:8px; }
+    .account-menu .account-top .account-coins { font-weight:700; color:#0f5132; }
+    .account-menu ul { list-style:none; margin:0; padding:0; display:block; }
+    .account-menu li { margin:6px 0; }
+    .account-menu a { color:#0f172a; text-decoration:none; display:flex; justify-content:space-between; padding:8px 10px; border-radius:8px; font-weight:600; }
+    .account-menu a:hover { background:#f4fff5; color:#0f5132; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+	<div class="logo">
+		<img src="logo.png" alt="GreenLoop Logo">
+	</div>
+	<nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" id="courses-link">Courses ▾</a>
+          <ul class="dropdown-menu" id="dropdown-menu">
+            <li><a href="basic-course.html">Basic</a></li>
+            <li><a href="advance-course.html">Advanced</a></li>
+            <li><a href="workshop.html">Workshop</a></li>
+          </ul>
+        </li>
+        <li><a href="event.html">Events</a></li>
+        <li><a href="waste-exchange.html">Waste Exchange</a></li>
+        <li><a href="report.html">Report</a></li>
+      </ul>
+    </nav>
+
+	<!-- Account dropdown trigger + menu -->
+	<div class="login-icon" style="position:relative">
+		<!-- use button-like anchor to toggle menu -->
+		<a href="#" id="profile-toggle" class="profile-toggle" aria-haspopup="true" aria-expanded="false" title="Account">
+			<i class="fa-solid fa-user"></i>
+		</a>
+
+		<!-- account menu -->
+		<div id="accountMenu" class="account-menu hidden" aria-hidden="true" role="menu" style="position:absolute;right:0;top:44px;width:260px;background:#fff;border:1px solid #eef6ee;border-radius:10px;box-shadow:0 12px 30px rgba(12,18,33,0.08);padding:10px;z-index:1200">
+			<div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:1px solid #f3f6f4;margin-bottom:8px">
+				<div>
+					<div id="accountLabel" style="font-size:13px;color:#6b7280">Signed in as</div>
+					<div id="menuUserEmail" style="font-weight:700;font-size:14px">Guest</div>
+				</div>
+				<div style="font-weight:700;color:#0f5132">Coins: <span id="menuCoins">0</span></div>
+			</div>
+
+			<ul id="accountMenuList" style="list-style:none;margin:0;padding:0">
+				<!-- JS will populate items based on signed-in state -->
+			</ul>
+		</div>
+	</div>
+  </header>
+
+  <section class="section event-hero">
+    <div class="container">
+      <h1 class="event-title">Upcoming GreenLoop Events</h1>
+      <p class="event-subtitle">Join us in making a difference! Participate in our events to promote sustainability and responsible waste management.</p>
+    </div>
+  </section>
+
+  <section class="section events-list-section">
+    <div class="container" id="events-list">
+      <!-- Events will be injected here by JS -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <p><strong>Contact Us</strong></p>
+        <p>Email: <a href="mailto:greenloop@gmail.com">greenloop@gmail.com</a> | 
+           Twitter: <a href="#">@GreenLoop2025</a></p>
+      </div>
+      <div class="footer-column">
+        <p><strong>Stay Updated</strong></p>
+        <form class="newsletter">
+          <input type="email" id="email" placeholder="Your Email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <p class="footer-bottom">&copy; 2025 GreenLoop. All Rights Reserved.</p>
+  </footer>
+  <!-- replaced external event.js with inline public renderer that reads admin storage -->
+  <script>
+    (function(){
+      const KEY = 'greenloop_admin_events_v1';
+      const root = document.getElementById('events-list');
+
+      function loadAll(){
+        try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ return []; }
+      }
+
+      function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+      function render(){
+        const items = loadAll().filter(it => it.published);
+        if (!items.length){
+          root.innerHTML = '<div style="padding:18px;background:#fff;border-radius:10px"><p style="color:#6b7280">No public events at the moment.</p></div>';
+          return;
+        }
+
+        // sort upcoming (by date/time if provided)
+        items.sort((a,b)=>{
+          const da = a.date ? new Date(a.date + 'T' + (a.time || '00:00')) : new Date(a.createdAt||0);
+          const db = b.date ? new Date(b.date + 'T' + (b.time || '00:00')) : new Date(b.createdAt||0);
+          return da - db;
+        });
+
+        root.innerHTML = items.map(it => {
+          return `<article style="background:#fff;padding:16px;border-radius:10px;margin-bottom:12px;box-shadow:0 6px 18px rgba(12,18,33,0.04)">
+            <h3 style="margin:0 0 6px 0">${escapeHtml(it.title)}</h3>
+            <div style="color:#6b7280;font-size:13px;margin-bottom:8px">${escapeHtml(it.date || 'Date TBA')}${it.time ? ' · ' + escapeHtml(it.time) : ''}${it.location ? ' · ' + escapeHtml(it.location) : ''}</div>
+            <p style="margin:0 0 8px">${escapeHtml(it.desc || '')}</p>
+            <div style="color:#9aa3ad;font-size:13px">Capacity: ${it.capacity || '—'}</div>
+          </article>`;
+        }).join('');
+      }
+
+      // update when admin changes data in another tab/window
+      window.addEventListener('storage', function(e){
+        if (e.key === KEY) render();
+      });
+
+      // initial render
+      render();
+    })();
+      (function(){
+      const coursesLink = document.getElementById('courses-link');
+      const dropdownMenu = document.getElementById('dropdown-menu');
+      if (coursesLink && dropdownMenu) {
+        coursesLink.addEventListener('click', function(e){ e.preventDefault(); dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block'; });
+        document.addEventListener('click', function(e){ if (!coursesLink.contains(e.target) && !dropdownMenu.contains(e.target)) dropdownMenu.style.display = 'none'; });
+      }
+    })();
+  </script>
+   <script src="script.js"></script>
+    <script src="./js/dropdow_for_logo.js"></script>
+  <script src="./js/auth.js"></script>
+  <script src="./js/dropdown-cources.js"></script>
+
+  <!-- <script src="./js/dropdown-cources.js"></script> -->
+   
+</body>
+</html>

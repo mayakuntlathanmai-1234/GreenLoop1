@@ -1,0 +1,58 @@
+.event-hero {
+  background: #e9fbe7;
+  padding: 40px 0 20px 0;
+  text-align: center;
+}
+.event-title {
+  color: #198754;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+.event-subtitle {
+  color: #444;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+.events-list-section {
+  padding: 30px 0 50px 0;
+}
+.event-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 28px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.15s;
+}
+.event-card:hover {
+  box-shadow: 0 4px 18px rgba(25,135,84,0.13);
+}
+.event-card-title {
+  font-size: 1.3rem;
+  color: #198754;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.event-card-date {
+  color: #888;
+  font-size: 0.98rem;
+  margin-bottom: 6px;
+}
+.event-card-location {
+  color: #146c43;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.event-card-desc {
+  color: #333;
+  font-size: 1.05rem;
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .event-card {
+    padding: 16px 10px;
+  }
+}

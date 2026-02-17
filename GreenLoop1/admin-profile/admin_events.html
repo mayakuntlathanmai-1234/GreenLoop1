@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Events • GreenLoop</title>
+  <!-- <link rel="icon" href="logo.png" /> -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin_events.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a href="index.html" class="brand-link">
+        <span>GreenLoop Admin</span></a>
+    </div>
+    <nav class="topnav">
+      <a href="admin_dashboard .html">Dashboard</a>
+      <a href="index.html">Profile</a>
+      <!-- <a href="event.html">Public Events</a> -->
+      <a href="admin_events.html" class="active">Manage Events</a>
+
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card form-card">
+      <header class="card-header">
+        <h2 id="formTitle">Add new event</h2>
+        <small class="muted">Create or edit events that will appear on the public events page.</small>
+      </header>
+
+      <form id="evtForm" autocomplete="off">
+        <div class="row">
+          <label>Title<input id="evtTitle" required placeholder="Event title" /></label>
+          <label>Date<input id="evtDate" type="date" required /></label>
+        </div>
+
+        <div class="row">
+          <label>Location<input id="evtLocation" placeholder="Location (city, venue)" /></label>
+          <label>Capacity<input id="evtCapacity" type="number" min="1" placeholder="e.g. 50" /></label>
+        </div>
+
+        <label>Description<textarea id="evtDesc" rows="4" placeholder="Brief description"></textarea></label>
+
+        <div class="actions">
+          <button id="submitBtn" class="primary" type="submit">Add event</button>
+          <button id="cancelEdit" class="ghost hidden" type="button">Cancel edit</button>
+          <button id="clearAll" class="outline" type="button">Clear all</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card list-card">
+      <header class="card-header">
+        <h2>Events</h2>
+        <small class="muted" id="eventsCount">0 events</small>
+      </header>
+
+      <div id="eventsList" class="events-list">
+        <!-- rendered by JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer muted">
+    <small>© 2025 GreenLoop — Admin tools</small>
+  </footer>
+
+  <script src="admin_events.js"></script>
+</body>
+</html>

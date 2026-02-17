@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>GreenLoop — Home</title>
+  <link rel="icon" href="../logo.png" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <!-- Header (site-wide navbar) -->
+  <header class="main-header">
+    <div class="container header-flex">
+      <div class="logo"><img src="../logo.png" alt="GreenLoop Logo"></div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="Home.html">Home</a></li>
+          <li class="dropdown"><a href="#" id="courses-link">Courses ▾</a>
+            <ul class="dropdown-menu" id="dropdown-menu">
+              <li><a href="../basic-course.html">Basic</a></li>
+              <li><a href="../advance-course.html">Advanced</a></li>
+              <li><a href="../workshop.html">Workshop</a></li>
+            </ul>
+          </li>
+          <li><a href="../event.html">Events</a></li>
+          <li><a href="../feedback.html">Feedback</a></li>
+          <li><a href="../waste-exchange.html">Waste Exchange</a></li>
+          <li><a href="../report.html">Report</a></li>
+        </ul>
+      </nav>
+      <div class="login-icon"><a href="#" id="profile-link"><i class="fa-solid fa-user"></i></a></div>
+    </div>
+  </header>
+
+  <!-- ...existing content... (hero, sections, feedback banner, footer) ... -->
+  <!-- keep content from your previous Home page here -->
+  <main class="content">
+    <!-- ...existing code... -->
+  </main>
+
+  <script src="../js/script.js"></script>
+  <script src="../js/feedback.js"></script>
+  <script src="../js/auth.js"></script>
+
+  <script>
+    // small dropdown handler reused across pages
+    (function(){
+      const coursesLink = document.getElementById('courses-link');
+      const dropdownMenu = document.getElementById('dropdown-menu');
+      if (coursesLink && dropdownMenu) {
+        coursesLink.addEventListener('click', function(e){ e.preventDefault(); dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block'; });
+        document.addEventListener('click', function(e){ if (!coursesLink.contains(e.target) && !dropdownMenu.contains(e.target)) dropdownMenu.style.display = 'none'; });
+      }
+    })();
+  </script>
+</body>
+</html>

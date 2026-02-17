@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Register Admin — GreenLoop</title>
+<link rel="icon" href="../logo.png" />
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--muted:#6b7280;--accent:#16a34a}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Inter,Arial;background:linear-gradient(180deg,#f7faf9,#eef7ee);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#0f172a}
+.panel{width:420px;background:var(--card);padding:22px;border-radius:12px;box-shadow:0 18px 40px rgba(12,18,33,0.07);border:1px solid #eef6ee}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.brand img{width:44px;height:44px;border-radius:8px}
+h1{margin:8px 0 4px 0;font-size:20px}
+p.lead{margin:0 0 14px 0;color:var(--muted);font-size:13px}
+label{display:block;font-size:13px;color:#222;margin-top:10px}
+input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e6efe9;margin-top:6px}
+.actions{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:14px}
+button{padding:10px 12px;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+.primary{background:var(--accent);color:#fff}
+.ghost{background:#fff;border:1px solid #e6eef0;color:var(--muted)}
+.meta{font-size:13px;color:var(--muted);margin-top:10px}
+.notice{margin-top:12px;padding:10px;border-radius:8px;font-size:13px}
+.notice.success{background:#f0fff4;border:1px solid #dff6e6;color:#0f5132}
+.notice.error{background:#fff4f4;border:1px solid #ffd6d6;color:#7b1b1b}
+.small{font-size:12px;color:var(--muted);margin-top:8px}
+a.link{color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<main class="panel" role="main">
+  <div class="brand">
+    <img src="../logo.png" alt="GreenLoop">
+    <div>
+      <h1>Admin register</h1>
+      <div class="meta">Create an administrator account</div>
+    </div>
+  </div>
+
+  <p class="lead">Register a new admin account. Passwords are hashed in the browser for this demo.</p>
+
+  <form id="regForm" autocomplete="off">
+    <label for="remail">Email</label>
+    <input id="remail" type="email" placeholder="you@greenloop.com" required />
+
+    <label for="rpassword">Password</label>
+    <input id="rpassword" type="password" placeholder="Choose a strong password" required />
+
+    <label for="rconfirm">Confirm password</label>
+    <input id="rconfirm" type="password" placeholder="Repeat password" required />
+
+    <div class="actions">
+      <button type="button" class="ghost" onclick="location.href='admin_login.html'">Back</button>
+      <button id="regSubmit" type="submit" class="primary">Register</button>
+    </div>
+
+    <div id="msg" class="small" aria-live="polite"></div>
+    <div style="margin-top:8px" class="small">Already registered? <a class="link" href="admin_login.html">Login</a></div>
+  </form>
+</main>
+
+<script>
+(async function(){
+  // helper: sha-256 hex
+  async function sha256hex(str){
+    const enc = new TextEncoder();
+    const data = enc.encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
+  function loadAccounts(){
+    try{ return JSON.parse(localStorage.getItem('greenloop_admin_accounts')||'[]'); }catch(e){ return []; }
+  }
+  function saveAccounts(list){ try{ localStorage.setItem('greenloop_admin_accounts', JSON.stringify(list)); }catch(e){} }
+
+  const form = document.getElementById('regForm');
+  const emailEl = document.getElementById('remail');
+  const pwdEl = document.getElementById('rpassword');
+  const confEl = document.getElementById('rconfirm');
+  const msg = document.getElementById('msg');
+
+  function show(text, type){
+    msg.className = type === 'error' ? 'notice error' : 'notice success';
+    msg.textContent = text;
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.textContent = '';
+    const email = (emailEl.value || '').trim().toLowerCase();
+    const pwd = pwdEl.value || '';
+    const conf = confEl.value || '';
+
+    if (!email || !pwd || !conf){ show('All fields are required.', 'error'); return; }
+    if (pwd.length < 8){ show('Password must be at least 8 characters.', 'error'); return; }
+    if (pwd !== conf){ show('Passwords do not match.', 'error'); return; }
+
+    const accounts = loadAccounts();
+    if (accounts.some(a=>a.email === email)){ show('An account with this email already exists. Sign in instead.', 'error'); return; }
+
+    show('Creating account…', 'success');
+    const hash = await sha256hex(pwd);
+    const entry = { email, pwdHash: hash, createdAt: new Date().toISOString() };
+    accounts.unshift(entry);
+    saveAccounts(accounts);
+
+    // auto-prepare a pending signin (session) and redirect to signin handler
+    try{ sessionStorage.setItem('admin_pending', JSON.stringify({ email: email, pwd: pwd })); }catch(e){}
+    // small delay so user sees success text
+    setTimeout(()=>{ window.location.href = 'admin_signin.html'; }, 700);
+  });
+})();
+</script>
+</body>
+</html>

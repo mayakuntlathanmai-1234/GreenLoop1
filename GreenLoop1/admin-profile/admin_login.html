@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Login — GreenLoop</title>
+  <style>
+    :root{--bg:#f6f8fb;--card:#fff;--muted:#6b7280;--accent:#16a34a}
+    *{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Inter,system-ui,Arial;background:linear-gradient(180deg,#f7faf9,#eef7ee);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#0f172a}
+    .panel{width:420px;background:var(--card);padding:22px;border-radius:12px;box-shadow:0 18px 40px rgba(12,18,33,0.07);border:1px solid #eef6ee}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .brand img{width:44px;height:44px;border-radius:8px}
+    h1{margin:8px 0 4px 0;font-size:20px}
+    p.lead{margin:0 0 14px 0;color:var(--muted);font-size:13px}
+    label{display:block;font-size:13px;color:#222;margin-top:10px}
+    input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e6efe9;margin-top:6px}
+    .actions{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:14px}
+    button{padding:10px 12px;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .primary{background:var(--accent);color:#fff}
+    .ghost{background:#fff;border:1px solid #e6eef0;color:var(--muted)}
+    .meta{font-size:13px;color:var(--muted);margin-top:10px}
+    a.link{color:var(--accent);text-decoration:none;font-weight:600}
+  </style>
+</head>
+<body>
+  <main class="panel" role="main">
+    <div class="brand">
+      <!-- <img src="logo.png" alt="GreenLoop"> -->
+      <div>
+        <h1>Admin Login</h1>
+        <div class="meta">Authorized personnel only</div>
+      </div>
+    </div>
+
+    <p class="lead">Sign in with your admin account. This demo validates credentials client-side; replace with secure server-side auth for production.</p>
+
+    <!-- ADMIN STATUS / ACTIONS (shown when already signed in) -->
+    <div id="adminStatus" style="display:none;margin-bottom:12px;padding:10px;border-radius:8px;border:1px solid #e6efe9;background:#f3fff4">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div style="color:#0f5132;font-weight:700">You are signed in as admin</div>
+        <div style="display:flex;gap:8px">
+          <button id="goHomeBtn" class="primary" style="padding:8px 10px;border-radius:8px;border:0;cursor:pointer;background:var(--accent);color:#fff">Admin home</button>
+          <button id="logoutBtn" class="ghost" style="padding:8px 10px;border-radius:8px;border:1px solid #e6eef0;cursor:pointer;background:#fff">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <form id="adminLoginForm" autocomplete="off">
+      <label for="aemail">Email</label>
+      <input id="aemail" type="email" placeholder="admin@greenloop.com" required />
+
+      <label for="apassword">Password</label>
+      <input id="apassword" type="password" placeholder="Enter admin password" required />
+
+      <div class="actions">
+        <button type="button" class="ghost" onclick="location.href='../loginpage.html'">Back</button>
+        <button type="submit" class="primary">Login</button>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
+        <div id="hint" class="meta">Demo credential: admin@greenloop.com / Admin@123</div>
+        <button id="demoFill" type="button" class="ghost" style="margin-left:auto">Use demo</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- load helper (relative path from admin-profile folder up one level) -->
+  <script src="admin_auth_helpers.js"></script>
+
+  <script>
+    // show admin status if already authenticated and wire logout/go-home
+    (function(){
+      const statusEl = document.getElementById('adminStatus');
+      const goHomeBtn = document.getElementById('goHomeBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      // if adminAuth exists and admin is signed in, show choices instead of immediate redirect
+      if (window.adminAuth && adminAuth.isAdmin()){
+        statusEl.style.display = 'block';
+      }
+
+      if (goHomeBtn) goHomeBtn.addEventListener('click', ()=> window.location.href = 'admin_dashboard .html');
+      if (logoutBtn) logoutBtn.addEventListener('click', ()=> {
+        if (window.adminAuth) {
+          adminAuth.logout(true); // clear auth but don't redirect immediately
+        } else {
+          try{ localStorage.removeItem('greenloop_admin_authenticated'); }catch(e){}
+        }
+        // show confirmation and redirect to user login
+        alert('Signed out. Redirecting to user login.');
+        window.location.href = '../loginpage.html';
+      });
+
+      // existing behaviors: submit and demo-fill
+      document.getElementById('adminLoginForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const email = (document.getElementById('aemail').value || '').trim();
+        const pwd = (document.getElementById('apassword').value || '').trim();
+        try{ sessionStorage.setItem('admin_pending', JSON.stringify({email:email, pwd:pwd})); }catch(e){}
+        window.location.href = 'admin_signin.html';
+      });
+
+      document.getElementById('demoFill').addEventListener('click', function(){
+        const demo = { email: 'admin@greenloop.com', pwd: 'Admin@123' };
+        try{ sessionStorage.setItem('admin_pending', JSON.stringify(demo)); }catch(e){}
+        window.location.href = 'admin_signin.html';
+      });
+    })();
+  </script>
+</body>
+</html>

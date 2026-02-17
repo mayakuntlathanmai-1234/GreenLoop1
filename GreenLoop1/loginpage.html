@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Eco Green Track</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 100, 0, 0.1);
+      width: 360px;
+      text-align: center;
+      border: 1px solid #d0f0d0;
+    }
+
+    .logo {
+      margin-bottom: 20px;
+    }
+
+    .logo h1 {
+      color: #2e7d32;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .logo p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #a5d6a7;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus {
+      border-color: #2e7d32;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+    }
+
+    .login-btn {
+      background-color: #2e7d32;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-btn:hover {
+      background-color: #1b5e20;
+    }
+
+    .links {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: #2e7d32;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 30px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* admin modal styles (added) */
+    .admin-link{margin-top:12px;text-align:center}
+    .admin-link a{color:#155724;background:#e9f7ef;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600;border:1px solid #c7eed0}
+    .admin-link a:hover{background:#f0fff4}
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);z-index:3000}
+    .modal.hidden{display:none}
+    .modal-card{background:#fff;border-radius:12px;padding:20px 18px;max-width:420px;width:92%;box-shadow:0 12px 40px rgba(2,6,23,0.18);border:1px solid #eef6ee}
+    .modal-card h3{margin:0 0 8px 0;color:#137a24}
+    .modal-card label{display:block;margin:8px 0;font-size:14px;color:#222}
+    .modal-card input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6efea}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    .modal-actions button{padding:8px 12px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+    .modal-actions .primary{background:#137a24;color:#fff}
+    .modal-actions .ghost{background:#fff;border:1px solid #e6efea;color:#222}
+    .admin-error{color:#b42318;margin-top:8px;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <h1>🌱GreenLoop</h1>
+      <p>Log in to your sustainable journey</p>
+    </div>
+
+    <form id="loginForm" action="/login" method="POST">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      </div>
+      <button type="submit" class="login-btn">Log In</button>
+    </form>
+
+    <div class="links">
+      <a href="forgotpassword.html">Forgot Password?</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+
+    <!-- Admin access (opens a modal restricted to authorized admins) -->
+    <div class="admin-link">
+      <a href="./admin-profile/admin_login.html" id="adminAccess" title="Admin login (authorized users only)">Admin access</a>
+    </div>
+
+    <div class="footer">
+      &copy; 2024 Eco Green Track. Committed to a greener planet.
+    </div>
+  </div>
+
+  <!-- existing user-login script -->
+  <script src="script.js"></script>
+  <script src="js/auth.js"></script>
+  
+  <!-- admin authentication logic -->
+  <script src="admin_auth.js"></script>
+  
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Show dialog
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.right = 0;
+      overlay.style.bottom = 0;
+      overlay.style.background = 'rgba(0,0,0,0.18)';
+      overlay.style.zIndex = 2000;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+
+      const dialog = document.createElement('div');
+      dialog.style.background = '#fff';
+      dialog.style.borderRadius = '14px';
+      dialog.style.boxShadow = '0 4px 24px rgba(0,0,0,0.13)';
+      dialog.style.padding = '32px 24px 24px 24px';
+      dialog.style.minWidth = '260px';
+      dialog.style.textAlign = 'center';
+      dialog.innerHTML = `
+        <div style="font-size:2rem;color:#198754;margin-bottom:10px;">&#10003;</div>
+        <div style="font-size:1.2rem;font-weight:bold;color:#198754;margin-bottom:10px;">Login Successful!</div>
+        <button id="loginDialogOk" style="background:#198754;color:#fff;border:none;border-radius:6px;padding:8px 28px;font-size:1rem;font-weight:500;cursor:pointer;">OK</button>
+      `;
+      overlay.appendChild(dialog);
+      document.body.appendChild(overlay);
+
+      document.getElementById('loginDialogOk').onclick = function() {
+        // mark user as signed in (demo)
+        try{
+          const email = (document.getElementById('email') && document.getElementById('email').value) || '';
+          if (window.auth && typeof window.auth.signIn === 'function'){
+            auth.signIn(email);
+          } else {
+            // fallback to direct sessionStorage use
+            sessionStorage.setItem('user_signed_in','1');
+            sessionStorage.setItem('user_email', email || 'user@example.com');
+            if (localStorage.getItem('coins') === null) localStorage.setItem('coins','0');
+            // emit a custom event so pages can react (some pages may listen)
+            window.dispatchEvent(new CustomEvent('auth-changed', { detail: { signed: true, email } }));
+          }
+        }catch(e){}
+
+        document.body.removeChild(overlay);
+        window.location.href = 'index.html';
+      };
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+    background: #f6f8f7;
+  color: #333;
+}
+
+/* Header */
+header {
+   background: #e9fbe7;
+  border-bottom: 1px solid #146c43;
+  padding: 0;
+   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+
+header .logo img {
+height: 44px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li {
+  position: relative;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #1b5e20;
+  font-weight: 500;
+   font-size: 1.08rem;
+  padding: 8px 10px;
+  border-radius: 4px;
+  transition: background 0.13s;
+}
+
+nav ul li a:hover {
+  color: #388e3c;
+  text-decoration: underline;
+}
+
+/* Login Icon */
+.login-icon a {
+  background: #2e7d32;
+  color: #fff;
+  border-radius: 50%;
+  padding: 10px 14px;
+  font-size: 18px;
+  transition: background 0.3s ease;
+}
+
+.login-icon a:hover {
+  background: #1b5e20;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background: #2e7d32;
+  top: 40px;
+  left: 0;
+  padding: 10px 0;
+  border-radius: 4px;
+  min-width: 150px;
+}
+
+.dropdown-menu li {
+  padding: 8px 20px;
+}
+
+.dropdown-menu li a {
+  color: #fff;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* Hero Section */
+.hero {
+  background: #2e7d32 url("https://www.transparenttextures.com/patterns/leaf.png");
+  background-size: 200px;
+  color: #fff;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero .slogan {
+  font-size: 22px;
+  font-style: italic;
+  margin-bottom: 15px;
+  color: #c8e6c9;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.primary-btn {
+  background: #fff;
+  color: #2e7d32;
+  border: 2px solid #fff;
+}
+
+.primary-btn:hover {
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+
+.secondary-btn {
+  background: #2e7d32;
+  color: #fff;
+  border: 2px solid #2e7d32;
+}
+
+.secondary-btn:hover {
+  background: #1b5e20;
+  border-color: #1b5e20;
+}
+
+/* Sections */
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #1b5e20;
+}
+
+.section p {
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+
+.alt-bg {
+  background: #f9fdf9;
+}
+
+.importance-list {
+  list-style: disc;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.importance-list li {
+  margin: 10px 0;
+  font-size: 17px;
+  color: #2e7d32;
+}
+
+/* Report Section */
+.report-section {
+  background: #e8f5e9;
+}
+
+.report-section h2 {
+  color: #2e7d32;
+}
+
+.report-section .btn {
+  margin-top: 15px;
+}
+
+/* Footer */
+footer {
+  background: #2e7d32; /* Green background */
+  color: #fff;
+  padding: 30px 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Stack on smaller screens */
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 280px;
+}
+
+footer p {
+  margin: 8px 0;
+  color: #fff;
+}
+
+footer a {
+  color: #c8f0c8;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Newsletter */
+.newsletter {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+}
+
+.newsletter button {
+  padding: 8px 15px;
+  background: #fff;
+  color: #2e7d32;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.newsletter button:hover {
+  background: #c8f0c8;
+  color: #1b4d1e;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+/* Course Hero */
+.course-hero {
+  background: #e8f5e9;
+  padding: 80px 20px;
+}
+
+.course-hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* keep text left, image right */
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.course-text {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;  /* center text + button */
+}
+
+.course-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+.course-text p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Button styling */
+.start-btn {
+  background: #2e7d32;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.start-btn:hover {
+  background: #1b5e20;
+}
+
+.course-hero-content img {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Course Details */
+.course-details {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 20px;
+  background: #f9f9f9;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.course-left, .course-right {
+  flex: 1;
+  min-width: 280px;
+}
+
+.course-left h2, .course-right h2 {
+  margin-bottom: 20px;
+  color: #2e7d32;
+}
+
+/* Centered list */
+.course-left ul {
+  list-style: disc;
+  padding-left: 0;
+  margin: 0 auto;
+  display: inline-block;  /* centers the list block itself */
+  text-align: left;       /* keeps bullets aligned properly */
+}
+
+.course-left li {
+  margin-bottom: 8px;
+  list-style-position: inside;
+}
+
+
+
+/* Course Page Layout */
+.course-page {
+  display: flex;
+  min-height: 80vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: #f1f8f4;
+  padding: 20px;
+  border-right: 2px solid #c8e6c9;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px;
+  background-color: #ffffff;
+  color: #2e7d32;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background-color: #c8e6c9;
+}
+
+/* Content Area */
+.course-content {
+  flex: 1;
+  padding: 40px;
+  background: #fff;
+}
+
+.course-content h2 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+

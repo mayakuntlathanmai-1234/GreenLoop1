@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Signing in — GreenLoop Admin</title>
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root{--accent:#16a34a;--muted:#6b7280}
+    *{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Inter,Arial;background:linear-gradient(180deg,#f7faf9,#eef7ee);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#0f172a}
+    .card{background:#fff;padding:22px;border-radius:12px;box-shadow:0 18px 40px rgba(12,18,33,0.07);width:420px;text-align:center;border:1px solid #eef6ee}
+    .check{font-size:42px;color:var(--accent);margin-bottom:8px}
+    .title{font-size:18px;margin-bottom:6px}
+    .muted{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .btn{padding:10px 14px;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .primary{background:var(--accent);color:#fff}
+    .danger{background:#ef4444;color:#fff}
+    a.retry{display:inline-block;margin-top:12px;color:var(--accent);font-weight:700;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div id="status">
+      <div class="muted">Signing in…</div>
+    </div>
+    <div id="actions" style="display:none">
+      <!-- filled by script -->
+    </div>
+  </div>
+
+  <script>
+    (async function(){
+      const DEMO_EMAIL = 'admin@greenloop.com';
+      const DEMO_PWD = 'Admin@123';
+      const AUTH_KEY = 'greenloop_admin_authenticated';
+
+      // helper: sha-256 hex
+      async function sha256hex(str){
+        if (!str) return '';
+        try{
+          const enc = new TextEncoder();
+          const data = enc.encode(str);
+          const hash = await crypto.subtle.digest('SHA-256', data);
+          return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+        }catch(e){
+          // very small fallback (not secure) if SubtleCrypto unavailable
+          let h = 0;
+          for (let i=0;i<str.length;i++) h = ((h<<5)-h)+str.charCodeAt(i);
+          return String(h >>> 0);
+        }
+      }
+
+      // If already authenticated, go straight to admin dashboard
+      try{
+        if (localStorage.getItem(AUTH_KEY) === '1'){
+          window.location.href = 'admin_dashboard.html';
+          return;
+        }
+      }catch(e){}
+
+      const pendingRaw = sessionStorage.getItem('admin_pending');
+      const statusEl = document.getElementById('status');
+      const actionsEl = document.getElementById('actions');
+
+      function showStatus(html){
+        statusEl.innerHTML = html;
+      }
+
+      function showSuccess(){
+        showStatus('<div class="check">✔</div><div class="title">Signed in — welcome</div><div class="muted">Redirecting to admin dashboard...</div>');
+        try{ localStorage.setItem(AUTH_KEY,'1'); }catch(e){}
+        try{ sessionStorage.removeItem('admin_pending'); }catch(e){}
+        setTimeout(()=>{ window.location.href = 'admin_dashboard.html'; }, 900);
+      }
+
+      function showFailure(message){
+        showStatus('<div style="font-size:34px;color:#b42318;margin-bottom:8px">✖</div><div class="title">Sign in failed</div><div class="muted">'+message+'</div>');
+        actionsEl.style.display = 'block';
+        actionsEl.innerHTML = '<a class="retry" href="admin_login.html">Try again</a> &nbsp; <a class="retry" href="../loginpage.html">Back to user login</a> &nbsp; <a class="retry" href="admin_register.html">Register admin</a>';
+        try{ sessionStorage.removeItem('admin_pending'); }catch(e){}
+      }
+
+      if (!pendingRaw){
+        showFailure('No credentials submitted. Please use the admin login form.');
+        return;
+      }
+
+      try {
+        const obj = JSON.parse(pendingRaw);
+        const email = (obj.email||'').toLowerCase();
+        const pwd = obj.pwd || '';
+
+        // load stored accounts
+        let accounts = [];
+        try{ accounts = JSON.parse(localStorage.getItem('greenloop_admin_accounts')||'[]'); }catch(e){ accounts = []; }
+
+        // compute hash of provided password
+        const providedHash = await sha256hex(pwd);
+
+        // check registered accounts
+        const match = accounts.find(a => a.email === email && a.pwdHash === providedHash);
+        if (match){
+          showSuccess();
+          return;
+        }
+
+        // fallback to demo credentials for backwards compatibility
+        if (email === DEMO_EMAIL && pwd === DEMO_PWD){
+          showSuccess();
+          return;
+        }
+
+        showFailure('Invalid admin email or password.');
+      } catch(e){
+        console.error(e);
+        showFailure('Unexpected error processing credentials.');
+      }
+    })();
+  </script>
+</body>
+</html>
